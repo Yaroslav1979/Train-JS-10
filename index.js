@@ -7,6 +7,22 @@
  * Повертаємо - Новий об'єкт з об'єднаними властивостями.
  */
 function customAssign(...objects) {
+  if (objects.length < 2) {
+    return "Помилка: Має бути передано принаймні два об'єкти.";
+  }
+
+  const target = {};
+   
+   Object.assign(target, ...objects)
+   
+   for (const key in target) {
+           if (typeof target[key] === "number") {
+         target[key] = target[key].toString();
+       }
+       target[key] = target[key].replace(/ /g, "_");
+     }
+  return target;
+
   // Перевірка, чи передано достатньо об'єктів якщо ні повертаємо "Помилка: Має бути передано принаймні два об'єкти."
   // Використання методу `assign` для об'єднання об'єктів
   // Перетворення числових значень на рядки, ітеруємо об'єкт за допомогою for in
@@ -29,6 +45,11 @@ console.log(customAssign({ a: 1, b: 2 }, { c: 3, d: 4 }, { e: 5, f: 6 }));
  * Повертаємо - Масив, що містить усі властивості та їх значення.
  */
 function customEntries(obj) {
+  if (typeof obj !== "object") {
+    return "Помилка: Аргумент не є об'єктом."
+  } else {
+    return Object.entries(obj)
+  }
   // Перевірка, чи переданий аргумент є об'єктом, якщо ні повертаємо "Помилка: Аргумент не є об'єктом."
   // Використання методу `entries` для отримання масиву з усіма властивостями та значеннями
   // Повернення масиву властивостей та значень
@@ -54,6 +75,18 @@ console.log(
  * Повертаємо - Об'єкт, створений з записів з обробленими значеннями.
  */
 function customObjectFromEntries(entries) {
+  if (!Array.isArray(entries)) {
+    return "Помилка: Вхідний аргумент має бути масивом.";
+  }
+  const arrEntries = entries.map(([key, value]) => {    
+    if (typeof value === "number") {      
+      value = value.toString();
+    }
+    return [key, value];
+  });
+  const target = Object.fromEntries(arrEntries);
+  return target;
+
   // Перевірка, чи вхідний аргумент є масивом,якщо ні повертаєм "Помилка: Вхідний аргумент має бути масивом."
   // Використання методу `map` для обробки значень властивостей
   // Перевірка, чи ключ  є числом
